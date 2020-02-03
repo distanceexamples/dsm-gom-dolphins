@@ -122,7 +122,7 @@ names(survey.area) <- c("x", "y")
 
 The below code generates this plot, which shows the survey area with the transect lines overlaid (using data from `segdata`).
 
-```{r areawithtransects, fig.cap="The survey area with transect lines.", fig.height=4}
+```{r areawithtransects, fig.cap="", fig.height=4}
 p <- qplot(data=survey.area, x=x, y=y, geom="polygon",fill=I("lightblue"),
 ylab="y", xlab="x", alpha=I(0.7))
 p <- p + coord_equal()
@@ -132,9 +132,9 @@ p <- p + gg.opts
 print(p)
 ```
 
-Also note that since we've projected our prediction grid, the "squares" don't look quite like squares. So for plotting we'll use the polygons that we've saved, these polygons (stored in `pred.polys`) are read from a shapefile created in GIS, the object itself is of class `SpatialPolygons` from the `sp` package. This plotting method makes plotting take a little longer, but avoids gaps and overplotting. The following plot compares using latitude/longitude with a projection.
+Also note that since we've projected our prediction grid, the "squares" don't look quite like squares. So for plotting we'll use the polygons that we've saved, these polygons (stored in `pred.polys`) are read from a shapefile created in GIS, the object itself is of class `SpatialPolygons` from the `sp` package. This plotting method makes plotting take a little longer, but avoids gaps and overplotting. The following plot compares using latitude/longitude (left) with a projection (right).
 
-```{r projection-compare, fig.cap="Comparison between unprojected latitude and longitude (left) and the prediction grid projected using the North American Lambert Conformal Conic projection (right)", fig.height=3}
+```{r projection-compare, fig.cap="", fig.height=3}
 par(mfrow=c(1,2))
 
 # put pred.polys into lat/long
@@ -189,7 +189,7 @@ The top panels of the EDA plots below show histograms of observed distances and 
 
 The following code generates the EDA plots:
 
-```{r EDA-plots, fig.height=7, fig.width=7, fig.cap="Exploratory plot of the distance sampling data. Top row, left to right: histograms of distance and cluster size; bottom row: plot of distance against cluster size and plot of distances against Beaufort sea state.", results="hide"}
+```{r EDA-plots, fig.height=7, fig.width=7, fig.cap="", results="hide"}
 par(mfrow=c(2,2))
 
 # histograms
@@ -209,13 +209,14 @@ plot(distdata$distance,distdata$beaufort, main="", xlab="Distance (m)",
      ylab="Beaufort sea state", pch=19, cex=0.5, col=gray(0.7))
 ```
 
+Top row, left to right: histograms of distance and cluster size; bottom row: plot of distance against cluster size and plot of distances against Beaufort sea state.
 
 
 ## Spatial data
 
-Looking separately at the spatial data without thinking about the distances, we can plot the observed group sizes in space. Circle size indicates the size of the group in the observation. There are rather large areas with no observations, which might cause our variance estimates for abundance to be rather large. We also see the depth data which we will use depth later as an explanatory covariate in our spatial model.
+Looking separately at the spatial data without thinking about the distances, we can plot the observed group sizes in space (point size is proportional to the group size for each observation). Circle size indicates the size of the group in the observation. There are rather large areas with no observations, which might cause our variance estimates for abundance to be rather large. We also see the depth data which we will use depth later as an explanatory covariate in our spatial model.
 
-```{r spatialEDA, fig.cap="Plot of depth values over the survey area with transects and observations overlaid. Point size is proportional to the group size for each observation."}
+```{r spatialEDA, fig.cap=""}
 p <- ggplot() + grid_plot_obj(preddata$depth, "Depth", pred.polys) + coord_equal()
 p <- p + labs(fill="Depth",x="x",y="y",size="Group size")
 p <- p + geom_line(aes(x, y, group=Transect.Label), data=segdata)
@@ -249,9 +250,9 @@ summary(detfc.hr.null)
 ```
 
 
-The following code generates a plot of the fitted detection function and quantile-quantile plot:
+The following code generates a plot of the fitted detection function (left) and quantile-quantile plot (right):
 
-``` {r hr-detfct, fig.cap="Plot of the fitted detection function (left) and goodness of fit plot (right) for the hazard-rate model.", fig.width=9, fig.height=6, results="hide"}
+``` {r hr-detfct, fig.cap="", fig.width=9, fig.height=6, results="hide"}
 layout(matrix(c(1, 2), 1, 2), width=c(1.5, 1))
 plot(detfc.hr.null, showpoints=FALSE, pl.den=0, lwd=2)
 ds.gof(detfc.hr.null)
@@ -306,9 +307,9 @@ The exact interpretation of the model summary results can be found in [@wood_gen
 We can use the deviance explained to compare between models[^rsqoffset].
 
 
-We can also get a rough idea of what the smooth of space looks like using `vis.gam`:
+We can also get a rough idea of what the smooth of space looks like using `vis.gam` (white/yellow indicates high values, red low indicates low values):
 
-```{r visgam1, fig.cap="Plot of the spatial smooth in `dsm.xy`, values are relative abundances. White/yellow indicates high values, red low indicates low values."}
+```{r visgam1, fig.cap=''}
 vis.gam(dsm.xy, plot.type="contour", view=c("x","y"), asp=1, type="response", contour.col="black", n.grid=100)
 ```
 
@@ -329,7 +330,7 @@ Setting `select=TRUE` here (as an argument to `gam`) would impose extra shrinkag
 
 Simply calling `plot` on the model object allows us to look at the relationship between depth and the linear predictor:
 
-```{r dsm-xy-depth-depth, fig.cap="Plot of the smooth of depth in `dsm.xy.depth`. This \"hockey stick\" shaped smooth indicates that there is not much information in depth after 500m."}
+```{r dsm-xy-depth-depth, fig.cap=""}
 plot(dsm.xy.depth, select=2)
 ```
 
@@ -350,9 +351,9 @@ As we can see, the `summary` results are rather similar:
 summary(dsm.est.xy)
 ```
 
-As is the resulting spatial smooth (though the resulting surface is somewhat "amplified):
+As is the resulting spatial smooth (though the resulting surface is somewhat "amplified"):
 
-```{r visgam5, fig.cap="Plot of the spatial smooth in `dsm.est.xy`."}
+```{r visgam5, fig.cap=""}
 vis.gam(dsm.est.xy, plot.type="contour", view=c("x","y"), asp=1, type="response", zlim=c(0, 300), contour.col="black", n.grid=100)
 ```
 
@@ -420,9 +421,9 @@ summary(dsm.xy.tweedie.soap)
 
 Fitting models is all well and good, but we'd like to confirm that the models we have are reasonable; `dsm` provides some functions for model checking.
 
-## Goodness of fit, residuals etc
+We can use `gam.check` to generate diagnostic plots:
 
-```{r dsm.xy-check, fig.cap="Diagnostic plots for `dsm.xy`.", fig.width=6, fig.height=6}
+```{r dsm.xy-check, fig.cap="", fig.width=6, fig.height=6}
 gam.check(dsm.xy)
 ```
 
@@ -439,7 +440,7 @@ The `?choose.k` manual page from `mgcv` gives further guidance and technical det
 
 We can look at the same model form but with a Tweedie distribution specified as the response:
 
-``` {r dsm.xy.tweedie-check, fig.cap="Diagnostic plots for `dsm.xy.tweedie`.", fig.width=6, fig.height=6}
+``` {r dsm.xy.tweedie-check, fig.cap="", fig.width=6, fig.height=6}
 gam.check(dsm.xy.tweedie)
 ```
 
@@ -451,9 +452,9 @@ Further guidance on interpreting `gam.check` output can be found in [@wood_gener
 
 In the top right panel of the above `gam.check` plots the residuals vs. linear predictor plot includes a odd line of predictions. These are an artifact of the link function, showing the exact zeros in the data. These can be misleading and distracting, making it difficult to see whether residuals show heteroskedasticity.
 
-Randomised quantile residuals (Dunn and Smyth, 1996) avoid this issue by transforming the residuals to be exactly normally distributed. This makes the residuals vs. linear predictor plot much easier to interpret as it therefore doesn't include the artifacts generated by the link function. These plots can be produced using `rqgam.check` in `dsm`.
+Randomised quantile residuals [@dunn_randomized_1996] avoid this issue by transforming the residuals to be exactly normally distributed. This makes the residuals vs. linear predictor plot much easier to interpret as it therefore doesn't include the artifacts generated by the link function. These plots can be produced using `rqgam.check` in `dsm`:
 
-``` {r dsm.xy.tweedie-rqcheck, fig.cap="Randomised quantile residual diagnostic plots for `dsm.xy.tweedie`.", fig.width=6, fig.height=6}
+``` {r dsm.xy.tweedie-rqcheck, fig.cap="", fig.width=6, fig.height=6}
 rqgam.check(dsm.xy.tweedie)
 ```
 
@@ -500,9 +501,9 @@ Once a model has been checked and selected, we can make predictions over the gri
 dsm.xy.pred <- predict(dsm.xy, preddata, preddata$area)
 ```
 
-We use the `grid_plot_obj` helper function to assign the predictions to grid cells (polygons).
+We use the `grid_plot_obj` helper function to assign the predictions to grid cells (polygons):
 
-```{r dsm.xy-preds, fig.cap="Predicted density surface for `dsm.xy`."}
+```{r dsm.xy-preds, fig.cap=""}
 p <- ggplot() + grid_plot_obj(dsm.xy.pred, "Abundance", pred.polys) + coord_equal() +gg.opts
 p <- p + geom_path(aes(x=x, y=y),data=survey.area)
 p <- p + labs(fill="Abundance")
@@ -515,9 +516,9 @@ We can calculate abundance over the survey area by simply summing these predicti
 sum(dsm.xy.pred)
 ```
 
-We can compare this with a plot of the predictions from this `dsm.xy.depth`.
+We can compare this with a plot of the predictions from this `dsm.xy.depth`:
 
-```{r dsm.xy.depth-preds, fig.cap="Predicted density surface for `dsm.xy.depth`."}
+```{r dsm.xy.depth-preds, fig.cap=""}
 dsm.xy.depth.pred <- predict(dsm.xy.depth, preddata, preddata$area)
 p <- ggplot() + grid_plot_obj(dsm.xy.depth.pred, "Abundance", pred.polys) + coord_equal() +gg.opts
 p <- p + geom_path(aes(x=x, y=y), data=survey.area)
@@ -558,15 +559,17 @@ Calling `summary` will give some information about uncertainty estimation:
 summary(dsm.xy.var)
 ```
 
-We can also make a plot of the CVs using the following code.
+We can also make a plot of the CVs (with transect lines and observations overlaid) using the following code.
 
-```{r dsm.xyvarplot, fig.cap="Plot of the coefficient of variation for the study area with transect lines and observations overlaid. Note the increase in CV away from the transect lines."}
+```{r dsm.xyvarplot, fig.cap=""}
 p <- ggplot() + grid_plot_obj(sqrt(dsm.xy.var$pred.var)/unlist(dsm.xy.var$pred),
                               "CV", pred.polys) + coord_equal() +gg.opts
 p <- p + geom_path(aes(x=x, y=y), data=survey.area)
 p <- p + geom_line(aes(x, y, group=Transect.Label), data=segdata)
 print(p)
 ```
+
+Note the increase in CV away from the transect lines.
 
 We can revisit the model that included both depth and location smooths and observe that the coefficient of variation for that model is larger than that of the model with only the location smooth.
 
