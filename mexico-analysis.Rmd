@@ -53,6 +53,14 @@ install.packages(c("dsm", "Distance", "knitr", "distill", "ggplot2", "rgdal",
 
 # The data
 
+Most of the data we need is included in the `dsm` package, but two additional objects needed for plotting are required and can be downloaded [here](https://examples.distancesampling.org/dsm-line-dolphins/mexdolphins-extra.rda) and should be put into the same directory as this file. The data can then be loaded into R using the following code:
+
+```{r download-extra-data}
+load("mexdolphins-extra.rda")
+```
+
+This should add the objects `survey.area` and `pred.polys` to your environment.
+
 ## Observation and segment data
 
 All of the data for this analysis has been nicely pre-formatted and is shipped with `dsm`. Loading that data, we can see that we have four `data.frame`s, the first few lines of each are shown:
