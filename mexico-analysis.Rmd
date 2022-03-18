@@ -263,7 +263,7 @@ The following code generates a plot of the fitted detection function (left) and 
 ``` {r hr-detfct, fig.cap="", fig.width=9, fig.height=6, results="hide"}
 layout(matrix(c(1, 2), 1, 2), width=c(1.5, 1))
 plot(detfc.hr.null, showpoints=FALSE, pl.den=0, lwd=2)
-ds.gof(detfc.hr.null)
+gof_ds(detfc.hr.null)
 ```
 
 The quantile-quantile plot show relatively good goodness of fit for the hazard-rate detection function.
